@@ -30,16 +30,19 @@ export class StudentController {
 
     return {
       "message": "estudante cadastrado com sucesso",
-      "data": data
+      "data": studentEntity
     };
   }
 
   @Put('/:id')
   async update(@Param('id') id: string, @Body() data) {
-    let teste = await this.studentService.update(data);
+    data.id = id;
+    
+    await this.studentService.update(data);
 
     return {
       "message": "estudante atualizado com sucesso",
+      "data": data
     }
   }
 
