@@ -1,9 +1,8 @@
 import { Body, Param, Controller, Get, Post, Put, Delete } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { StudentEntity } from './student.entity';
-import { v4 as uuidv4 } from 'uuid';
 
-@Controller('/api/student')
+@Controller('/api/students')
 export class StudentController { 
   constructor(private studentService: StudentService) {}
 
@@ -18,19 +17,12 @@ export class StudentController {
   }
 
   @Post()
-  async create(@Body() data) {
-    const studentEntity = new StudentEntity();
-    studentEntity.id = uuidv4();
-    studentEntity.name = data.name;
-    studentEntity.birthDate = data.birthDate;
-    studentEntity.cpf = data.cpf;
-    studentEntity.address = data.address;
-
-    this.studentService.create(studentEntity);
+  async create(@Body() data: StudentEntity) {
+    this.studentService.create(data);
 
     return {
-      "message": "estudante cadastrado com sucesso",
-      "data": studentEntity
+      "message": "Estudante cadastrado com sucesso",
+      "data": data
     };
   }
 
@@ -41,7 +33,7 @@ export class StudentController {
     await this.studentService.update(data);
 
     return {
-      "message": "estudante atualizado com sucesso",
+      "message": "Estudante atualizado com sucesso",
       "data": data
     }
   }
@@ -51,7 +43,7 @@ export class StudentController {
     await this.studentService.delete(id);
 
     return {
-      "message": "estudante removido com sucesso",
+      "message": "Estudante removido com sucesso",
     }
   }
 }
